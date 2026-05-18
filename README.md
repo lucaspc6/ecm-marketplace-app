@@ -1,63 +1,148 @@
-# ECM Marketplace - QA Automation Test App
+# 📦 ECM Marketplace App
 
-A minimal web application designed for QA automation practice with Selenium, Playwright, or similar testing frameworks.
+## Overview
+
+ECM Marketplace App is a minimal web application designed as an **Application Under Test (AUT)** for practicing UI automation.
+
+The system simulates an e-commerce flow with authentication, product browsing, cart management, and checkout, using only client-side logic.
+
+---
 
 ## Purpose
 
-This application serves as an Application Under Test (AUT) for practicing UI automation. It includes:
-- Intentional async delays to practice explicit waits
-- localStorage-based authentication and cart management
-- Stable element IDs for reliable test locators
-- Multiple user flows for comprehensive test scenarios
+This application is designed to:
 
-## Project Structure
+- Provide a controlled environment for UI test automation
+- Simulate real-world frontend behaviors (async operations, state management)
+- Enable practice with test synchronization, validation, and design patterns
+
+---
+
+## Architecture (High-Level)
+
+The application is implemented as a static frontend:
 
 ```
-.
-├── app/
-│   ├── index.html      # Home page with navigation
-│   ├── login.html      # Login page with authentication
-│   ├── products.html   # Product catalog with search and cart
-│   └── checkout.html   # Checkout page with order completion
-├── server/
-│   └── server.js       # Simple static HTTP server
-├── package.json        # Project configuration
-└── README.md          # This file
+HTML Pages + Inline JavaScript
+        ↓
+localStorage (state persistence)
+        ↓
+Simulated async operations (setTimeout)
 ```
 
-## How to Run
+### Key Characteristics
 
-### Option 1: Node.js Server (Recommended)
+- No backend (fully client-side)
+- State managed via `localStorage`
+- Navigation through static HTML pages
+- Intentional delays to simulate asynchronous behavior
 
-1. Install dependencies (none required, but run for future compatibility):
-   ```bash
-   npm install
-   ```
+---
 
-2. Start the server:
-   ```bash
-   npm start
-   ```
+## Features / Scope
 
-3. Open your browser and navigate to:
-   ```
-   http://localhost:8080
-   ```
+The application supports:
 
-### Option 2: Python Simple Server (Alternative)
+- User authentication (success and failure scenarios)
+- Product listing and search
+- Add-to-cart functionality
+- Cart persistence
+- Checkout flow with validation
 
-1. Navigate to the app directory:
-   ```bash
-   cd app
-   ```
+---
 
-2. Start Python's built-in HTTP server:
-   ```bash
-   python3 -m http.server 8080
-   ```
+## Tech Stack
 
-3. Open your browser and navigate to:
-   ```
-   http://localhost:8080
-   ```
+- HTML5
+- Vanilla JavaScript
+- CSS
+- Node.js (optional local server)
 
+---
+
+## How It Works
+
+### Authentication
+
+- Valid login sets `localStorage.auth = "true"`
+- Invalid login displays an error message
+- Successful login triggers a delayed redirect to products page
+
+### Products
+
+- Product list stored in-memory
+- Search implemented with debounce (~400ms delay)
+- Cart stored as JSON in `localStorage`
+
+### Checkout
+
+- Reads cart from `localStorage`
+- Validates authentication state
+- Simulates processing delay (~500ms)
+- Clears cart upon successful order
+
+---
+
+## Relationship with QA Automation Project
+
+This repository is the **System Under Test (SUT)**.
+
+👉 QA Automation Suite: https://github.com/lucaspc6/ecm-qa-automation
+
+### Interaction Flow
+
+```
+ECM Marketplace App (SUT)
+          ↑
+QA Automation Suite
+```
+
+The QA project:
+
+- Executes user flows
+- Interacts with the UI
+- Validates behavior and state
+- Handles async operations through explicit waits
+
+This separation reflects real-world QA engineering practices.
+
+---
+
+## Setup Instructions
+
+### Option 1 — Node.js
+
+```bash
+npm install
+npm start
+```
+
+Open:
+
+```
+http://localhost:8080
+```
+
+---
+
+### Option 2 — Python
+
+```bash
+cd app
+python3 -m http.server 8080
+```
+
+Open:
+
+```
+http://localhost:8080
+```
+
+---
+
+## Notes for Reviewers
+
+- Intentionally simple system focused on testability
+- Includes async behavior and state management
+- Designed to support UI test automation scenarios
+- Paired with a dedicated automation project
